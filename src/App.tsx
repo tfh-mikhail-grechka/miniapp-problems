@@ -40,10 +40,10 @@ export const App = () => {
 
   return (
     <div className="p-6 grid gap-y-4">
-      <div> Version 4 </div>
+      <div> Version 5 </div>
       <div>Is installed: {JSON.stringify(isInstalled)}</div>
       <label>Permissions</label>
-      <textarea rows={20} className="text-xs p-1 border border-black rounded-lg" readOnly>{permissions}</textarea>
+      <pre className="text-xs p-1 border border-black rounded-lg">{permissions}</pre>
       <button
         onClick={handleClick}
         className="bg-gray-900 text-white font-bold rounded-lg px-3 py-2 text-lg"
@@ -51,7 +51,7 @@ export const App = () => {
         Request notifications
       </button>
       <label>Requested permissions</label>
-      <textarea rows={20} className="text-xs p-1 border border-black rounded-lg" readOnly>{requestedPermissionsPayload}</textarea>
+      <pre className="text-xs p-1 border border-black rounded-lg">{requestedPermissionsPayload}</pre>
     </div>
   )
 }
