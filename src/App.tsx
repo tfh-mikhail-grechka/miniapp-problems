@@ -4,28 +4,31 @@ import { useEffect, useState } from "react"
 export const App = () => {
   const [requestedPermissionsPayload, setRequestedPermissionsPayload] = useState('')
   const [permissions, setPermissions] = useState('')
+  const [isInstalled, setIsInstalled] = useState(false)
 
   const handleClick = async () => {
     if (!MiniKit.isInstalled()) return
+    setIsInstalled(true)
     
     try {
       const {finalPayload} = await MiniKit.commandsAsync.requestPermission({ permission: Permission.Notifications })
 
       setRequestedPermissionsPayload(JSON.stringify(finalPayload, null, 2))
-    } catch (error) {
-      setRequestedPermissionsPayload((error as Error).message)
+    } catch  {
+      setRequestedPermissionsPayload('Some error')
     }
   }
 
   useEffect(() => {
     if (!MiniKit.isInstalled()) return
+    setIsInstalled(true)
     
     async function main() {
       try {
         const {finalPayload} = await MiniKit.commandsAsync.getPermissions()
         setPermissions(JSON.stringify(finalPayload, null, 2))
-      } catch (error) {
-        setPermissions((error as Error).message)
+      } catch {
+        setPermissions('Some error')
       }
     }
 
@@ -35,7 +38,8 @@ export const App = () => {
 
   return (
     <div className="p-6 grid gap-y-4">
-      Version 1
+      <div> Version 2 </div>
+      <div>Is installed: {isInstalled}</div>
       <label>Permissions</label>
       <textarea rows={20} className="text-xs p-1 border border-black rounded-lg" readOnly>{permissions}</textarea>
       <button
