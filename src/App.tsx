@@ -8,17 +8,25 @@ export const App = () => {
   const handleClick = async () => {
     if (!MiniKit.isInstalled()) return
     
-    const {finalPayload} = await MiniKit.commandsAsync.requestPermission({ permission: Permission.Notifications })
+    try {
+      const {finalPayload} = await MiniKit.commandsAsync.requestPermission({ permission: Permission.Notifications })
 
-    setRequestedPermissionsPayload(JSON.stringify(finalPayload, null, 2))
+      setRequestedPermissionsPayload(JSON.stringify(finalPayload, null, 2))
+    } catch (error) {
+      setRequestedPermissionsPayload((error as Error).message)
+    }
   }
 
   useEffect(() => {
     if (!MiniKit.isInstalled()) return
     
     async function main() {
-      const {finalPayload} = await MiniKit.commandsAsync.getPermissions()
-      setPermissions(JSON.stringify(finalPayload, null, 2))
+      try {
+        const {finalPayload} = await MiniKit.commandsAsync.getPermissions()
+        setPermissions(JSON.stringify(finalPayload, null, 2))
+      } catch (error) {
+        setPermissions((error as Error).message)
+      }
     }
 
     main()
@@ -27,6 +35,7 @@ export const App = () => {
 
   return (
     <div className="p-6 grid gap-y-4">
+      Version 1
       <label>Permissions</label>
       <textarea rows={20} className="text-xs p-1 border border-black rounded-lg" readOnly>{permissions}</textarea>
       <button
