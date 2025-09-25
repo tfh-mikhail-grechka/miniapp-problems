@@ -10,6 +10,7 @@ export const App = () => {
     if (!MiniKit.isInstalled()) return
     setIsInstalled(true)
     
+    setRequestedPermissionsPayload(`Waiting for response since ${new Date().toLocaleTimeString()}`)
     try {
       const {finalPayload} = await MiniKit.commandsAsync.requestPermission({ permission: Permission.Notifications })
 
@@ -24,6 +25,7 @@ export const App = () => {
     setIsInstalled(true)
     
     async function main() {
+      setPermissions(`Waiting for response since ${new Date().toLocaleTimeString()}`)
       try {
         const {finalPayload} = await MiniKit.commandsAsync.getPermissions()
         setPermissions(JSON.stringify(finalPayload, null, 2))
@@ -38,7 +40,7 @@ export const App = () => {
 
   return (
     <div className="p-6 grid gap-y-4">
-      <div> Version 3 </div>
+      <div> Version 4 </div>
       <div>Is installed: {JSON.stringify(isInstalled)}</div>
       <label>Permissions</label>
       <textarea rows={20} className="text-xs p-1 border border-black rounded-lg" readOnly>{permissions}</textarea>
