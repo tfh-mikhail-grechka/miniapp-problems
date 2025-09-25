@@ -38,8 +38,8 @@ export const App = () => {
 
   return (
     <div className="p-6 grid gap-y-4">
-      <div> Version 2 </div>
-      <div>Is installed: {isInstalled}</div>
+      <div> Version 3 </div>
+      <div>Is installed: {JSON.stringify(isInstalled)}</div>
       <label>Permissions</label>
       <textarea rows={20} className="text-xs p-1 border border-black rounded-lg" readOnly>{permissions}</textarea>
       <button
