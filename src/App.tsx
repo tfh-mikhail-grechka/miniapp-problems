@@ -1,15 +1,16 @@
 import { MiniKit, Permission } from "@worldcoin/minikit-js"
+import { useMiniKit } from "@worldcoin/minikit-js/minikit-provider"
 import { useEffect, useState } from "react"
 
 export const App = () => {
   const [requestedPermissionsPayload, setRequestedPermissionsPayload] = useState('')
   const [permissions, setPermissions] = useState('')
-  const [isInstalled, setIsInstalled] = useState(false)
+
+  const {isInstalled} = useMiniKit()
 
   const handleClick = async () => {
-    if (!MiniKit.isInstalled()) return
-    setIsInstalled(true)
-    
+    if (!isInstalled) return
+
     setRequestedPermissionsPayload(`Waiting for response since ${new Date().toLocaleTimeString()}`)
     try {
       const {finalPayload} = await MiniKit.commandsAsync.requestPermission({ permission: Permission.Notifications })
@@ -21,8 +22,7 @@ export const App = () => {
   }
 
   useEffect(() => {
-    if (!MiniKit.isInstalled()) return
-    setIsInstalled(true)
+    if (!isInstalled) return
     
     async function main() {
       setPermissions(`Waiting for response since ${new Date().toLocaleTimeString()}`)
@@ -35,12 +35,12 @@ export const App = () => {
     }
 
     main()
-  }, [])
+  }, [isInstalled])
 
 
   return (
     <div className="p-6 grid gap-y-4">
-      <div> Version 5 </div>
+      <div> Version 6 </div>
       <div>Is installed: {JSON.stringify(isInstalled)}</div>
       <label>Permissions</label>
       <pre className="text-xs p-1 border border-black rounded-lg">{permissions}</pre>
